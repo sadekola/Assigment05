@@ -1,3 +1,13 @@
+/*********************************************************************************
+*  WEB700 – Assignment 05
+*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part 
+*  of this assignment has been copied manually or electronically from any other source 
+*  (including 3rd party web sites) or distributed to other students.
+* 
+*  Name: Samuel Adekola Student ID: 130895220 Date: 2024 - 03 - 24
+*
+********************************************************************************/ 
+
 const express = require("express");
 const exphbs = require('express-handlebars');
 const path = require("path");
@@ -6,20 +16,6 @@ const collegeData = require("./modules/collegeData.js");
 
 const HTTP_PORT = process.env.PORT || 8080;
 const app = express();
-
-// // Register handlebars engine
-// const hbs = exphbs.create({
-//     extname: '.hbs',
-//     helpers: {
-//         navLink: function(url, options) {
-//             return `<li${(url == app.locals.activeRoute ? ' class="nav-item active"' : ' class="nav-item"')}><a class="nav-link" href="${url}">${options.fn(this)}</a></li>`;
-//         },
-//         equal: function(lvalue, rvalue, options) {
-//             if (arguments.length < 3) throw new Error("Handlebars Helper equal needs 2 parameters");
-//             return lvalue == rvalue ? options.fn(this) : options.inverse(this);
-//         }
-//     }
-// });
 
 const hbs = exphbs.create({
     extname: '.hbs',
@@ -47,33 +43,6 @@ const hbs = exphbs.create({
 });
 
 
-
-// const hbs = exphbs.create({
-//     extname: '.hbs',
-//     helpers: {
-//         equal: function(lvalue, rvalue, options) {
-//             var args = Array.prototype.slice.call(arguments);
-//             var options = args.pop();
-//             var lvalue = args[0];
-//             var rvalue = args[1];
-
-//             if (arguments.length < 3)
-//                 throw new Error("Handlebars Helper equal needs 2 parameters");
-            
-//             var result = lvalue == rvalue;
-
-//             // Check if this is a block helper or not
-//             if (options.fn && result) {
-//                 return options.fn(this);
-//             } else if (options.inverse && !result) {
-//                 return options.inverse(this);
-//             } else {
-//                 // Not a block helper, just return true or false
-//                 return result;
-//             }
-//         }
-//     }
-// });
 
 
 // Set up handlebars engine
@@ -128,13 +97,7 @@ collegeData.initialize().then(() => {
             .catch((err) => res.status(500).render("error", { message: "Internal server error" }));
     });
 
-    // Student by number route
-    // app.get("/student/:num", (req, res) => {
-    //     const studentNum = req.params.num;
-    //     collegeData.getStudentByNum(studentNum)
-    //         .then((student) => res.render("studentForm", { student: student }))
-    //         .catch(() => res.status(404).render("error", { message: "Student not found" }));
-    // });
+
     app.get('/student/:num', (req, res) => {
         Promise.all([
             collegeData.getStudentByNum(req.params.num),
@@ -167,28 +130,7 @@ collegeData.initialize().then(() => {
             .catch((err) => res.status(500).render("error", { message: "Internal server error" }));
     });
 
-    // NEWWWWWW
-    // Example POST route for updating a student
-    // app.post('/student/update', (req, res) => {
-    // collegeData.updateStudent(req.body) // Assuming updateStudent is implemented to handle the request body
-    //     .then(() => {
-    //         res.redirect('/students'); // Adjust redirect as needed
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //         res.status(500).send("Unable to update student."); // Handle errors
-    //     });
-    // });
-    // app.post('/student/update', (req, res) => {
-    //     collegeData.updateStudent(req.body) // Assuming updateStudent is implemented to handle the request body
-    //         .then(() => {
-    //             res.redirect('/students'); // Adjust redirect as needed
-    //         })
-    //         .catch(err => {
-    //             console.error(err);
-    //             res.status(500).send("Unable to update student."); // Handle errors
-    //         });
-    // });
+
     app.post('/student/update', (req, res) => {
         //console.log(req.body); // Add this line to debug incoming form data
         collegeData.updateStudent(req.body)
